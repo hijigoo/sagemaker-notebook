@@ -40,16 +40,11 @@ def prepare_datasets(filepath):
 
 def train(args, train_x, train_y) -> MLPClassifier:
     print(" --- Start train --- ")
-
-    print("MLP fit 시작")
-    start_time = datetime.now()
     mlp_model = MLPClassifier(hidden_layer_sizes=(10,), activation='tanh', solver='sgd', batch_size=args.batch_size,
                               learning_rate_init=args.learning_rate, max_iter=args.epochs, verbose=True)
     mlp_model.fit(train_x, train_y)
     end_time = datetime.now()
-    print("MLP fit 실행 시간 : ", end_time - start_time)
-    # 고객 코드 끝
-
+    print(f'Learning time: {end_time - start_time}')
     return mlp_model
 
 
@@ -57,7 +52,7 @@ def test(model, filepath="data/sample_buy_test.csv"):
     print(" --- TEST --- ")
     x, y = prepare_datasets(filepath=filepath)
     predict_y = model.predict(x)
-    print('Accuracy: {:.2f}'.format(accuracy_score(y, predict_y)))
+    print(f'Accuracy: {accuracy_score(y, predict_y)}')
 
 
 if __name__ == '__main__':
