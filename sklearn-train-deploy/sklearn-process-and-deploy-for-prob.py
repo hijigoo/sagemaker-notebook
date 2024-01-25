@@ -18,15 +18,16 @@ def model_fn(model_dir):
 def predict_fn(input_object, model):
     print("# Start predict_fn")
     print(input_object)
-
     scaler = StandardScaler()
     scaler.fit(input_object)
     x_norm = scaler.transform(input_object)
 
     prediction = model.predict(x_norm)
-    print(prediction)
+    pred_prob = model.predict_proba(x_norm)
+    pred_prob = np.amax(pred_prob, axis=1)
+    print(np.array([prediction, pred_prob]))
     print("# End predict_fn")
-    return prediction
+    return np.array([prediction, pred_prob])
 
 
 # Serialize the prediction result into the desired response content type
