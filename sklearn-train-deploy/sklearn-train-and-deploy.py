@@ -40,6 +40,7 @@ def prepare_datasets(filepath):
 
 def train(args, train_x, train_y) -> MLPClassifier:
     print(" --- Start train --- ")
+    start_time = datetime.now()
     mlp_model = MLPClassifier(hidden_layer_sizes=(10,), activation='tanh', solver='sgd', batch_size=args.batch_size,
                               learning_rate_init=args.learning_rate, max_iter=args.epochs, verbose=True)
     mlp_model.fit(train_x, train_y)
