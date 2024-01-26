@@ -1,0 +1,27 @@
+-- Create Model function and Table
+DROP MODEL lge_buying_classifier;
+
+CREATE MODEL lge_buying_classifier
+FUNCTION remote_fn_lge_buy(INTEGER, INTEGER, INTEGER)
+RETURNS int
+SAGEMAKER 'sagemaker-scikit-learn-2024-01-26-01-00-03-312'
+IAM_ROLE  default;
+
+DROP TABLE IF EXISTS lge_buying_test CASCADE;
+CREATE TABLE lge_buying_test
+(
+age int,
+assets int,
+income int
+);
+
+INSERT INTO lge_buying_test (age, assets, income) 
+VALUES (27, 2, 3),
+       (10, 1, 5),
+       (70, 10, 9),
+       (100, 8, 9);
+
+SELECT * FROM "dev"."public"."lge_buying_test";
+
+-- Query
+select remote_fn_lge_buy(age, assets, income) as buy_y_n FROM lge_buying_test
